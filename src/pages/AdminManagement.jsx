@@ -8,6 +8,7 @@ const MAIN_ADMIN_EMAIL = 'yariri10@gmail.com';
 const AdminManagement = () => {
   const [admins, setAdmins] = useState([]);
   const [newAdminEmail, setNewAdminEmail] = useState('');
+  const [isMainAdmin, setIsMainAdmin] = useState(false);
   const navigate = useNavigate();
 
   const fetchAdmins = async () => {
@@ -42,6 +43,10 @@ const AdminManagement = () => {
         return;
       }
 
+      if (user.email === MAIN_ADMIN_EMAIL) {
+        setIsMainAdmin(true); // אתה האדמין הראשי
+      }
+
       const docRef = doc(db, 'admins', user.email);
       const docSnap = await getDoc(docRef);
 
@@ -59,22 +64,31 @@ const AdminManagement = () => {
     <main className="admin-container">
       <h2 className="admin-title">Admin Management</h2>
 
-      <div className="admin-input-row">
-        <input
-          type="email"
-          className="admin-input"
-          placeholder="Enter admin email"
-          value={newAdminEmail}
-          onChange={(e) => setNewAdminEmail(e.target.value)}
-        />
-        <button onClick={addAdmin} className="admin-add-button">Add</button>
-      </div>
+      {/* תצוגת המייל של המשתמש */}
+      <p style={{ color: 'white', fontSize: '16px', marginBottom: '20px' }}>
+        Logged in as: <strong>{auth.currentUser?.email}</strong>
+      </p>
 
+      {/* טופס הוספת אדמין - רק למנהל הראשי */}
+      {isMainAdmin && (
+        <div className="admin-input-row">
+          <input
+            type="email"
+            className="admin-input"
+            placeholder="Enter admin email"
+            value={newAdminEmail}
+            onChange={(e) => setNewAdminEmail(e.target.value)}
+          />
+          <button onClick={addAdmin} className="admin-add-button">Add</button>
+        </div>
+      )}
+
+      {/* רשימת אדמינים */}
       <ul className="admin-list">
         {admins.map(email => (
           <li key={email} className="admin-item">
             <span>{email}</span>
-            {email !== MAIN_ADMIN_EMAIL && (
+            {isMainAdmin && email !== MAIN_ADMIN_EMAIL && (
               <button onClick={() => removeAdmin(email)} className="admin-remove-button">
                 Remove
               </button>

@@ -7,37 +7,50 @@ const MainPage = ({ user }) => {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const checkIfAdmin = async () => {
-    if (!user || !user.email) return;
-
-    const docRef = doc(db, 'admins', user.email);
-    const docSnap = await getDoc(docRef);
-    setIsAdmin(docSnap.exists());
+  const back = () => {
+    navigate('/');
   };
 
   const goToAdminPage = () => {
     navigate('/admin');
   };
 
-  const back = () => {
-    navigate('/');
+  const handleButtonClick = (number) => {
+    alert(`Button ${number} clicked!`);
   };
 
   useEffect(() => {
+    const checkIfAdmin = async () => {
+      if (!user || !user.email) return;
+      const docRef = doc(db, 'admins', user.email);
+      const docSnap = await getDoc(docRef);
+      setIsAdmin(docSnap.exists());
+    };
     checkIfAdmin();
   }, [user]);
 
   return (
-    <main>
-      <p style={{ color: 'white', fontSize: '18px', textAlign: 'center', marginBottom: '20px' }}>
+    <main className="main-container">
+      <p className="logged-user">
         Logged in as: <strong>{user?.email}</strong>
       </p>
 
       <button className="Back" onClick={back}>Back to Login</button>
-
       {isAdmin && (
         <button className="Back2" onClick={goToAdminPage}>Go to Admin Management</button>
       )}
+
+      <div className="grid-buttons">
+        {[...Array(9)].map((_, index) => (
+          <button
+            key={index}
+            className="grid-button"
+            onClick={() => handleButtonClick(index + 1)}
+          >
+            Button {index + 1}
+          </button>
+        ))}
+      </div>
     </main>
   );
 };

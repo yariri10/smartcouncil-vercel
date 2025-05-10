@@ -160,3 +160,51 @@ body{
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
   filter: brightness(1.3);
 }
+
+.bottom-right-text {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: white; /* או כל צבע שאתה רוצה */
+  z-index: 9999;
+  color: 'white';
+  fontSize: '18px';
+  textAlign: 'center'; 
+  marginBottom: '20px' 
+}
+
+.main-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.logged-user {
+  color: white;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.grid-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+.grid-button {
+  padding: 20px;
+  font-size: 18px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.grid-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}

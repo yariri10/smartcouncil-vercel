@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const cookies = new Cookies();
 
-const LogInPage = ({ setUser }) => {
+const LogInPage = ({ setUser, }) => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -14,7 +14,7 @@ const LogInPage = ({ setUser }) => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
-      cookies.set('kidkod-user', user.refreshToken);
+      cookies.set('kidkod-user', user);
       setUser(user);
 
       navigate('/main');
@@ -24,8 +24,12 @@ const LogInPage = ({ setUser }) => {
     }
   };
 
+  
+
   return (
     <main>
+      
+
       <button className="login-button" onClick={handleLogin}>LOGIN</button>
     </main>
   );
