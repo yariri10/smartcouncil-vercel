@@ -2,13 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '/src/FirebaceConfig';
 import { doc, getDoc } from 'firebase/firestore';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const MainPage = ({ user }) => {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const back = () => {
-    navigate('/');
+  const logout = () => {
+    auth.signOut().then(() => {
+      cookies.remove('kidkod-user');
+      navigate('/');
+    });
   };
 
   const goToAdminPage = () => {
@@ -35,11 +41,15 @@ const MainPage = ({ user }) => {
         Logged in as: <strong>{user?.email}</strong>
       </p>
 
-      <button className="Back" onClick={back}>Back to Login</button>
+      {/* 🔥 כפתור Logout במקום Back */}
+      <button className="Back" onClick={logout}>Logout</button>
+
+      {/* כפתור Admin Management רק לאדמין */}
       {isAdmin && (
         <button className="Back2" onClick={goToAdminPage}>Go to Admin Management</button>
       )}
 
+      {/* רשת 9 כפתורים */}
       <div className="grid-buttons">
         {[...Array(9)].map((_, index) => (
           <button

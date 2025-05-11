@@ -14,6 +14,7 @@ const LogInPage = ({ setUser, }) => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
+      console.log("welcome", result.user);
       cookies.set('kidkod-user', user);
       setUser(user);
 
